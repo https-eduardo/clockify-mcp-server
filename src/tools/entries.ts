@@ -178,17 +178,23 @@ export const editEntryTool: McpToolConfig = {
   },
   handler: async (params: TEditEntrySchema): Promise<McpResponse> => {
     try {
-      let start = params.start;
-      if (!start) {
-        const current = await entriesService.getById(
-          params.workspaceId,
-          params.timeEntryId
-        );
-        start = new Date(current.data.timeInterval.start);
-      }
+      // Fetch current entry to get required fields that weren't provided
+      const current = await entriesService.getById(
+        params.workspaceId,
+        params.timeEntryId
+      );
+
+      // Merge current values with provided params (params take precedence)
       const result = await entriesService.update({
-        ...params,
-        start,
+        workspaceId: params.workspaceId,
+        timeEntryId: params.timeEntryId,
+        start: params.start ?? new Date(current.data.timeInterval.start),
+        end: params.end ?? new Date(current.data.timeInterval.end),
+        billable: params.billable ?? current.data.billable,
+        description: params.description ?? current.data.description,
+        projectId: params.projectId ?? current.data.projectId,
+        taskId: params.taskId ?? current.data.taskId,
+        tagIds: params.tagIds ?? current.data.tagIds,
       });
 
       const entryInfo = `Time entry updated successfully. ID: ${result.data.id} Name: ${result.data.description}`;
