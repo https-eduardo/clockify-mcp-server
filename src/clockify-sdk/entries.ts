@@ -10,12 +10,14 @@ import { URLSearchParams } from "node:url";
 
 function EntriesService(api: AxiosInstance) {
   async function create(entry: TCreateEntrySchema) {
-    const body = {
-      ...entry,
-      workspaceId: undefined,
-    };
+    const { workspaceId, ...rest } = entry;
 
-    return api.post(`workspaces/${entry.workspaceId}/time-entries`, body);
+    // Filter out undefined values to avoid sending nulls to Clockify
+    const body = Object.fromEntries(
+      Object.entries(rest).filter(([_, value]) => value !== undefined)
+    );
+
+    return api.post(`workspaces/${workspaceId}/time-entries`, body);
   }
 
   async function find(filters: TFindEntrySchema) {
@@ -45,14 +47,15 @@ function EntriesService(api: AxiosInstance) {
   }
 
   async function update(params: TEditEntrySchema) {
-    const body = {
-      ...params,
-      workspaceId: undefined,
-      timeEntryId: undefined,
-    };
+    const { workspaceId, timeEntryId, ...rest } = params;
+
+    // Filter out undefined values to avoid sending nulls to Clockify
+    const body = Object.fromEntries(
+      Object.entries(rest).filter(([_, value]) => value !== undefined)
+    );
 
     return api.put(
-      `workspaces/${params.workspaceId}/time-entries/${params.timeEntryId}`,
+      `workspaces/${workspaceId}/time-entries/${timeEntryId}`,
       body
     );
   }
