@@ -7,4 +7,6 @@ export const CreateEntrySchema = z.object({
   start: z.coerce.date(),
   end: z.coerce.date(),
   projectId: z.string().optional(),
+  taskId: z.string().optional(),
+  tagIds: z.array(z.string()).optional(),
 });

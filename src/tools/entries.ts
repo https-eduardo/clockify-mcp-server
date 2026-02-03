@@ -29,6 +29,14 @@ export const createEntryTool: McpToolConfig = {
       .string()
       .optional()
       .describe("The id of the project associated with this time entry"),
+    taskId: z
+      .string()
+      .optional()
+      .describe("The id of the task (activity) within the project to associate with this time entry"),
+    tagIds: z
+      .array(z.string())
+      .optional()
+      .describe("Array of tag IDs to associate with this time entry"),
   },
   handler: async (params: TCreateEntrySchema): Promise<McpResponse> => {
     try {
@@ -159,6 +167,14 @@ export const editEntryTool: McpToolConfig = {
       .string()
       .optional()
       .describe("The id of the project associated with this time entry"),
+    taskId: z
+      .string()
+      .optional()
+      .describe("The id of the task (activity) within the project to associate with this time entry"),
+    tagIds: z
+      .array(z.string())
+      .optional()
+      .describe("Array of tag IDs to associate with this time entry"),
   },
   handler: async (params: TEditEntrySchema): Promise<McpResponse> => {
     try {

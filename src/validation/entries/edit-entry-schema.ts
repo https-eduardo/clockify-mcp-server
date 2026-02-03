@@ -8,4 +8,6 @@ export const EditEntrySchema = z.object({
   start: z.union([z.coerce.date(), z.undefined()]).optional(),
   end: z.union([z.coerce.date(), z.undefined()]).optional(),
   projectId: z.string().optional(),
+  taskId: z.string().optional(),
+  tagIds: z.array(z.string()).optional(),
 });
