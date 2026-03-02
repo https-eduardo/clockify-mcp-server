@@ -7,6 +7,7 @@ import {
   TEditEntrySchema,
 } from "../types";
 import { URLSearchParams } from "node:url";
+import { fetchAllPages } from "../config/pagination";
 
 function EntriesService(api: AxiosInstance) {
   async function create(entry: TCreateEntrySchema) {
@@ -33,11 +34,12 @@ function EntriesService(api: AxiosInstance) {
 
     if (filters.project) searchParams.append("project", filters.project);
 
-    return api.get(
-      `https://api.clockify.me/api/v1/workspaces/${filters.workspaceId}/user/${
-        filters.userId
-      }/time-entries?${searchParams.toString()}`
+    const data = await fetchAllPages<any>(
+      `workspaces/${filters.workspaceId}/user/${filters.userId}/time-entries`,
+      searchParams
     );
+
+    return { data };
   }
 
   async function deleteEntry(params: TDeleteEntrySchema) {

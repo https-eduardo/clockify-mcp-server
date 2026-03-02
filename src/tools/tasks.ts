@@ -1,4 +1,4 @@
-import { api } from "../config/api";
+import { fetchAllPages } from "../config/pagination";
 import { z } from "zod";
 import { McpResponse, McpToolConfig } from "../types";
 
@@ -21,8 +21,8 @@ export const listTasksTool: McpToolConfig = {
       throw new Error("Project ID required to fetch tasks");
     }
 
-    const response = await api.get(`workspaces/${workspaceId}/projects/${projectId}/tasks`);
-    const tasks = response.data.map((task: any) => ({
+    const data = await fetchAllPages<any>(`workspaces/${workspaceId}/projects/${projectId}/tasks`);
+    const tasks = data.map((task: any) => ({
       id: task.id,
       name: task.name,
       projectId: task.projectId,

@@ -1,4 +1,5 @@
 import { api } from "../config/api";
+import { fetchAllPages } from "../config/pagination";
 import { z } from "zod";
 import { McpResponse, McpToolConfig } from "../types";
 
@@ -15,8 +16,8 @@ export const getTagsTool: McpToolConfig = {
       throw new Error("Workspace ID required to fetch tags");
     }
 
-    const response = await api.get(`workspaces/${workspaceId}/tags`);
-    const tags = response.data.map((tag: any) => ({
+    const data = await fetchAllPages<any>(`workspaces/${workspaceId}/tags`);
+    const tags = data.map((tag) => ({
       id: tag.id,
       name: tag.name,
       workspaceId: tag.workspaceId,
