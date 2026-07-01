@@ -14,6 +14,7 @@ import { getCurrentUserTool } from "./tools/users";
 import { findWorkspacesTool } from "./tools/workspaces";
 import { createTagTool, getTagsTool } from "./tools/tags";
 import { createTaskTool, listTasksTool } from "./tools/tasks";
+import { getHoursByClientTool } from "./tools/reports";
 import { z } from "zod";
 import { argv } from "process";
 
@@ -102,6 +103,13 @@ export default function createStatelessServer({
     createTaskTool.description,
     createTaskTool.parameters,
     createTaskTool.handler
+  );
+
+  server.tool(
+    getHoursByClientTool.name,
+    getHoursByClientTool.description,
+    getHoursByClientTool.parameters,
+    getHoursByClientTool.handler
   );
   return server.server;
 }
