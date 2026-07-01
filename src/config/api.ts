@@ -55,4 +55,11 @@ export const TOOLS_CONFIG = {
       description: "Edit an existing time entry in a workspace",
     },
   },
+  reports: {
+    hoursByClient: {
+      name: "get-hours-by-client",
+      description:
+        "Get total hours worked per client for a date range in a workspace, aggregated on the server. Returns a compact summary (hours per client + total) instead of raw time entries. Note: projects are grouped by their Clockify client name.",
+    },
+  },
 };
