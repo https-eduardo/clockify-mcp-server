@@ -13,7 +13,7 @@ import { findProjectTool } from "./tools/projects";
 import { getCurrentUserTool } from "./tools/users";
 import { findWorkspacesTool } from "./tools/workspaces";
 import { createTagTool, getTagsTool } from "./tools/tags";
-import { createTaskTool, listTasksTool } from "./tools/tasks";
+import { createTaskTool, updateTaskTool, deleteTaskTool, listTasksTool } from "./tools/tasks";
 import { getHoursByClientTool } from "./tools/reports";
 import { z } from "zod";
 import { argv } from "process";
@@ -103,6 +103,20 @@ export default function createStatelessServer({
     createTaskTool.description,
     createTaskTool.parameters,
     createTaskTool.handler
+  );
+
+  server.tool(
+    updateTaskTool.name,
+    updateTaskTool.description,
+    updateTaskTool.parameters,
+    updateTaskTool.handler
+  );
+
+  server.tool(
+    deleteTaskTool.name,
+    deleteTaskTool.description,
+    deleteTaskTool.parameters,
+    deleteTaskTool.handler
   );
 
   server.tool(
