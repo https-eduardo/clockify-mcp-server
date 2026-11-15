@@ -16,11 +16,28 @@ npx -y @smithery/cli install @https-eduardo/clockify-mcp-server --client claude
 
 ### Installing Manually
 
-First, install tsx globally
+Before anything, make sure you have Node.js and npm installed on your machine.
+
+First, clone the project and change directory to it.
+
+Then install the dependencies
+
+`npm i`
+
+Then install tsx globally
 
 `npm i -g tsx`
 
-Then insert the MCP server in `claude_desktop_config`
+Create a Clockify API key:
+
+- Log in to Clockify
+- Click on your profile icon in the top right
+- Click on Preferences
+- Go to the Advanced tab
+- Select Manage API keys
+- Create a new one
+
+Then insert the MCP server in `claude_desktop_config.json`, replacing `ABSOLUTE_PATH` with the path to the cloned project and `YOUR_CLOCKIFY_API_TOKEN_HERE` with your API key
 
 ```json
 {
@@ -36,3 +53,8 @@ Then insert the MCP server in `claude_desktop_config`
   }
 }
 ```
+
+Tip: you can find `claude_desktop_config.json` here:
+
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
