@@ -20,6 +20,12 @@ import { argv } from "process";
 
 export const configSchema = z.object({
   clockifyApiToken: z.string().describe("Clockify API Token"),
+  clockifyApiUrl: z
+    .string()
+    .optional()
+    .describe(
+      "Clockify API base URL. Workspaces hosted in a regional data center must use their regional URL, e.g. https://euc1.clockify.me/api/v1 (EU), https://use2.clockify.me/api/v1 (USA), https://euw2.clockify.me/api/v1 (UK) or https://apse2.clockify.me/api/v1 (AU). Defaults to https://api.clockify.me/api/v1"
+    ),
 });
 
 const server = new McpServer(SERVER_CONFIG);
@@ -30,6 +36,9 @@ export default function createStatelessServer({
   config: z.infer<typeof configSchema>;
 }) {
   api.defaults.headers.Authorization = `Bearer ${config.clockifyApiToken}`;
+  if (config.clockifyApiUrl) {
+    api.defaults.baseURL = config.clockifyApiUrl;
+  }
   server.tool(
     createEntryTool.name,
     createEntryTool.description,
@@ -133,6 +142,7 @@ export default function createStatelessServer({
     createStatelessServer({
       config: {
         clockifyApiToken: process.env.CLOCKIFY_API_TOKEN as string,
+        clockifyApiUrl: process.env.CLOCKIFY_API_URL,
       },
     });
     const transport = new StdioServerTransport();

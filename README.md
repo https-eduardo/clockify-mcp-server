@@ -36,3 +36,21 @@ Then insert the MCP server in `claude_desktop_config`
   }
 }
 ```
+
+### Regional workspaces (EU, USA, UK, AU)
+
+If your Clockify workspace is hosted in a regional data center, the global API URL
+rejects your API key with `401 Unauthorized` ("Api key does not exist"), even when the key is valid.
+Set `CLOCKIFY_API_URL` (or `clockifyApiUrl` when installing via Smithery) to your region's URL:
+
+| Region | API URL |
+| --- | --- |
+| Global (default) | `https://api.clockify.me/api/v1` |
+| EU (Germany) | `https://euc1.clockify.me/api/v1` |
+| USA | `https://use2.clockify.me/api/v1` |
+| UK | `https://euw2.clockify.me/api/v1` |
+| Australia | `https://apse2.clockify.me/api/v1` |
+
+Not sure which region you're on? Check the address bar after logging in to Clockify
+(e.g. `app.clockify.me` vs. a regional subdomain), or try each URL with
+`curl -H "X-Api-Key: YOUR_KEY" <API_URL>/user` and use the one that returns `200`.
